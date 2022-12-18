@@ -34,7 +34,7 @@ const PlanList = () => {
                 <AccountBalanceIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary="Single-line item" />
+            <ListItemText primary="Расходы 1" />
           </ListItem>
         </Paper>
         <Paper sx={{ marginBottom: 2, paddingY: 1, paddingRight: 2 }}>
@@ -52,7 +52,7 @@ const PlanList = () => {
                 <AccountBalanceIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary="Single-line item" />
+            <ListItemText primary="Расходы 2" />
           </ListItem>
         </Paper>
       </List>
