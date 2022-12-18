@@ -1,20 +1,21 @@
-import React from "react"
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
-import CssBaseline from "@mui/material/CssBaseline"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import CssBaseline from "@mui/material/CssBaseline";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import PlanList from "./pages/PlanList"
+import PlanItem from "./pages/PlanItem";
+import PlanList from "./pages/PlanList";
 
-import "@fontsource/roboto/300.css"
-import "@fontsource/roboto/400.css"
-import "@fontsource/roboto/500.css"
-import "@fontsource/roboto/700.css"
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
   },
-})
+});
 
 const App = () => {
   return (
@@ -24,11 +25,12 @@ const App = () => {
         <Router>
           <Routes>
             <Route path="/" element={<PlanList />}></Route>
+            <Route path="/:id" element={<PlanItem />}></Route>
           </Routes>
         </Router>
       </div>
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;
