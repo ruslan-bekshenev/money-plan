@@ -1,90 +1,134 @@
 module.exports = {
-  parser: "@typescript-eslint/parser",
-  extends: [
-    "prettier",
-    "plugin:jest/style",
-    "plugin:jest/recommended",
-    "plugin:jsx-a11y/recommended",
-    "plugin:testing-library/react",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended",
-  ],
-  plugins: [
-    "jest",
-    "jsx-a11y",
-    "unused-imports",
-    "testing-library",
-    "@typescript-eslint",
-    "simple-import-sort",
-  ],
   settings: {
-    "import/resolver": {
-      typescript: {},
+    react: {
+      version: "detect",
     },
   },
   env: {
     browser: true,
-    node: true,
     es6: true,
-    jest: true,
+    commonjs: true,
   },
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended",
+    "prettier",
+    "react-app",
+    "react-app/jest",
+  ],
+  globals: {
+    Atomics: "readonly",
+    SharedArrayBuffer: "readonly",
+  },
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 2018,
+    sourceType: "module",
+  },
+  plugins: ["react", "@typescript-eslint", "prettier", "simple-import-sort"],
   rules: {
-    "no-shadow": "off",
-    "no-console": "off",
-    "global-require": "off",
-    "react/prop-types": "off",
-    "import/extensions": "off",
-    "no-param-reassign": "off",
-    "no-use-before-define": "off",
-    "no-underscore-dangle": "off",
-    "no-useless-constructor": "off",
-    "no-parameter-properties": "off",
-    "react/react-in-jsx-scope": "off",
-    "react-hooks/rules-of-hooks": "warn",
-    "react/jsx-props-no-spreading": "off",
-    "import/prefer-default-export": "off",
-    "simple-import-sort/exports": "error",
-    "testing-library/no-node-access": "off",
-    "@typescript-eslint/ban-ts-comment": "off",
-    "unused-imports/no-unused-imports": "error",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/no-extra-semi": "warn",
-    "@typescript-eslint/no-unused-vars": "warn",
-    "@typescript-eslint/no-empty-function": "warn",
-    "unused-imports/no-unused-imports": "warn",
-    "testing-library/await-async-query": "off",
-    "jsx-a11y/click-events-have-key-events": "warn",
-    "testing-library/render-result-naming-convention": "off",
-    "lines-between-class-members": [
-      "error",
-      "always",
-      { exceptAfterSingleLine: true },
-    ],
-    "simple-import-sort/imports": [
+    "@typescript-eslint/no-var-requires": "warn",
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "arrow-body-style": ["error", "as-needed"],
+    "react/prop-types": 0,
+    "import/no-extraneous-dependencies": 0,
+    "no-underscore-dangle": [
       "error",
       {
+        allow: [
+          "_id",
+          "__typename",
+          "__schema",
+          "__ref",
+          "_rutarget",
+          "_rtgParams",
+        ],
+        allowAfterThis: true,
+      },
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        extensions: [".js", ".ts", ".tsx"],
+      },
+    ],
+    "prettier/prettier": "warn",
+    "@typescript-eslint/interface-name-prefix": 0,
+    "@typescript-eslint/require-await": 0,
+    "@typescript-eslint/camelcase": 0,
+    "@typescript-eslint/no-unsafe-call": 0,
+    "@typescript-eslint/no-unsafe-member-access": 0,
+    "@typescript-eslint/no-unsafe-assignment": 0,
+    "@typescript-eslint/restrict-template-expressions": 0,
+    "@typescript-eslint/no-unsafe-return": 0,
+    "@typescript-eslint/unbound-method": 0,
+    "simple-import-sort/imports": [
+      "error",
+      // more info about custom sorting https://github.com/lydell/eslint-plugin-simple-import-sort/tree/d1d59be47b08733990a8a62f7caf735cdad420f9#custom-grouping
+      {
         groups: [
-          ["^react"],
-          ["^@?\\w"],
+          // Node.js builtins. You could also generate this regex if you use a `.js` config.
+          // For example: `^(${require("module").builtinModules.join("|")})(/|$)`
+          [
+            "^(assert|buffer|child_process|cluster|console|constants|crypto|dgram|dns|domain|events|fs|http|https|module|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|sys|timers|tls|tty|url|util|vm|zlib|freelist|v8|process|async_hooks|http2|perf_hooks)(/.*|$)",
+          ],
+          // Packages. `react` related packages come first.
+          ["^react", "^@?\\w"],
+          // Types
+          ["^.+?[Tt]ype.+?"],
+          // Internal packages.
+          [
+            "^(@|@company|@ui|@components|@core|@views|utils|config|vendored-lib)(/.*|$)",
+          ],
+          // Internal packages.
+          ["^(@type)(/.*|$)"],
+          // Hooks imports.
+          ["^.*use[A-Z].*$"],
+          // Side effect imports.
           ["^\\u0000"],
+          // Parent imports. Put `..` last.
           ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+          // Other relative imports. Put same-folder imports and `.` last.
           ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+          // Types imports.
+          ["^.*type"],
+          // Style imports.
+          ["^.*styled.index$"],
         ],
       },
     ],
-    "no-console": "off",
-    "no-restricted-syntax": [
-      "error",
-      {
-        selector:
-          "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace)$/]",
-        message: "Unexpected property on console object was called",
-      },
+    "@typescript-eslint/triple-slash-reference": "off",
+    "no-return-assign": "off",
+    "no-void": "off",
+    "react/no-array-index-key": "off",
+    // 'no-nested-ternary': 'off',
+    "react/jsx-props-no-spreading": "off",
+    indent: "off",
+    // 'no-use-before-define': 'off',
+    // '@typescript-eslint/no-use-before-define': ['off'],
+    "import/export": "off",
+    "import/no-unresolved": "off",
+    // 'import/order': 'off',
+    // 'import/extensions': 'off',
+    // 'import/prefer-default-export': 'off',
+    "no-console": ["error", { allow: ["warn", "info", "error"] }],
+    "react/no-danger": "off",
+    "react/display-name": "warn",
+    "@typescript-eslint/no-explicit-any": "off",
+    // 'no-unused-vars': ['warn', { vars: 'all', argsIgnorePattern: '^_' }],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { vars: "all", argsIgnorePattern: "^_" },
     ],
-  },
-  globals: {
-    __DEV__: true,
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-empty-function": "off",
   },
 };

@@ -1,6 +1,6 @@
-import React from "react";
+import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import { Box, Button, Grid, IconButton, List, Typography } from "@mui/material";
+import { Box, Button, Grid, List, Typography } from "@mui/material";
 
 import CostItem from "../../components/CostItem";
 import EditText from "../../components/EditText";
@@ -10,11 +10,29 @@ import MainLayout from "../../layouts/MainLayout/MainLayout";
 import { FlexBox } from "./styles";
 
 const PlanItem = () => {
+  const [canEdit, setCanEdit] = useState(false);
+  const handleEdit = () => {
+    setCanEdit((value) => !value);
+  };
   return (
     <MainLayout>
-      <PaperContainer sx={{ marginBottom: 3 }}>
-        <EditText textProps={{ variant: "h3" }} />
-      </PaperContainer>
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-between"
+        sx={{ marginBottom: 3 }}
+      >
+        <EditText textProps={{ variant: "h3" }} isEdit={canEdit} />
+        <Box display="flex" alignItems="center">
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={handleEdit}
+          >
+            Редактировать
+          </Button>
+        </Box>
+      </Box>
       <Grid container spacing={2} sx={{ mb: 6 }}>
         <Grid item sm={6}>
           <PaperContainer>
@@ -24,8 +42,9 @@ const PlanItem = () => {
               </Typography>
               <Box>
                 <EditText
-                  inputProps={{ size: "small" }}
                   textProps={{ variant: "h5" }}
+                  inputProps={{ size: "small" }}
+                  isEdit={canEdit}
                 />
               </Box>
             </FlexBox>
@@ -49,15 +68,12 @@ const PlanItem = () => {
           <Typography variant="h4" sx={{ mb: 0 }}>
             Список затрат
           </Typography>
-          <Button variant="contained" startIcon={<AddIcon />}>
-            Добавить
-          </Button>
         </Box>
         <Box>
           <List dense>
-            <CostItem />
-            <CostItem />
-            <CostItem />
+            <CostItem isEdit={canEdit} />
+            <CostItem isEdit={canEdit} />
+            <CostItem isEdit={canEdit} />
           </List>
         </Box>
       </Box>
