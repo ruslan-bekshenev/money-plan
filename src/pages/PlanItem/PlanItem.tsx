@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 import { Box, Button, Grid, List, Typography } from "@mui/material";
 
 import CostItem from "../../components/CostItem";
@@ -24,13 +25,36 @@ const PlanItem = () => {
       >
         <EditText textProps={{ variant: "h3" }} isEdit={canEdit} />
         <Box display="flex" alignItems="center">
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={handleEdit}
-          >
-            Редактировать
-          </Button>
+          {!canEdit && (
+            <Button
+              variant="contained"
+              startIcon={<EditIcon />}
+              onClick={handleEdit}
+            >
+              Редактировать
+            </Button>
+          )}
+          {canEdit && (
+            <>
+              <Button
+                variant="contained"
+                startIcon={<EditIcon />}
+                onClick={handleEdit}
+                color="success"
+                sx={{ mr: 2 }}
+              >
+                Сохранить
+              </Button>
+              <Button
+                variant="contained"
+                startIcon={<EditIcon />}
+                onClick={handleEdit}
+                color="error"
+              >
+                Отменить
+              </Button>
+            </>
+          )}
         </Box>
       </Box>
       <Grid container spacing={2} sx={{ mb: 6 }}>
@@ -75,6 +99,13 @@ const PlanItem = () => {
             <CostItem isEdit={canEdit} />
             <CostItem isEdit={canEdit} />
           </List>
+          {canEdit && (
+            <Box>
+              <Button variant="contained" startIcon={<AddIcon />}>
+                Добавить
+              </Button>
+            </Box>
+          )}
         </Box>
       </Box>
     </MainLayout>
